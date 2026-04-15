@@ -2,21 +2,100 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
+  <title>AR Viewer</title>
+
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin: 20px 0;
+      font-size: 24px;
+      text-align: center;
+    }
+
+    model-viewer {
+      width: 90vw;
+      height: 60vh;
+      background: #111;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .btn-ar {
+      margin-top: 20px;
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .btn-ar:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .loader {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 18px;
+      color: #ccc;
+    }
+  </style>
 </head>
 
-<body style="margin:0;">
+<body>
+
+<h1>Visualiza el modelo en 3D 🚀</h1>
+
+<div class="loader" id="loader">Cargando modelo...</div>
 
 <model-viewer 
+  id="viewer"
   src="test2.glb"
   ar
   ar-modes="scene-viewer webxr"
   auto-rotate
-  animation-name="*"
   autoplay
-  
-  style="width:100vw; height:100vh;">
+  animation-name="*"
+  camera-controls
+  exposure="1"
+  shadow-intensity="1"
+  style="display:none;">
 </model-viewer>
+
+<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
+
+<script>
+  const viewer = document.getElementById("viewer");
+  const loader = document.getElementById("loader");
+
+  // Cuando carga el modelo
+  viewer.addEventListener("load", () => {
+    loader.style.display = "none";
+    viewer.style.display = "block";
+  });
+
+  function activarAR() {
+    viewer.activateAR();
+  }
+</script>
 
 </body>
 </html>
