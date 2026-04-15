@@ -16,8 +16,8 @@
 
     h1 {
       text-align: center;
-      padding: 15px;
-      font-size: 22px;
+      padding: 20px;
+      font-size: 24px;
     }
 
     .grid {
@@ -30,27 +30,21 @@
     .card {
       background: #111;
       border-radius: 15px;
-      padding: 10px;
+      padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    model-viewer {
-      width: 100%;
-      height: 150px;
-      background: #000;
-      border-radius: 10px;
+      justify-content: center;
+      height: 120px;
     }
 
     .btn-ar {
-      margin-top: 10px;
       width: 100%;
-      padding: 15px;
-      font-size: 16px;
+      padding: 18px;
+      font-size: 18px;
       border: none;
-      border-radius: 10px;
+      border-radius: 12px;
       background: linear-gradient(135deg, #ff4b2b, #ff416c);
       color: white;
       cursor: pointer;
@@ -58,66 +52,55 @@
     }
 
     .btn-ar:active {
-      transform: scale(0.97);
-    }
-
-    .loader {
-      font-size: 12px;
-      color: #aaa;
-      margin-top: 5px;
+      transform: scale(0.95);
     }
   </style>
 </head>
 
 <body>
 
-<h1>Test AR - Modelos 🚀</h1>
+<h1>🚀 Test AR - Modelos</h1>
 
 <div class="grid">
 
-  <!-- CARD TEMPLATE (x6) -->
-
   <div class="card">
-    <model-viewer id="m1" src="test1.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m1')">VER EN AR</button>
-    <div class="loader">Modelo 1</div>
+    <button class="btn-ar" onclick="activarAR('test1.glb')">Modelo 1</button>
   </div>
 
   <div class="card">
-    <model-viewer id="m2" src="test2.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m2')">VER EN AR</button>
-    <div class="loader">Modelo 2</div>
+    <button class="btn-ar" onclick="activarAR('test2.glb')">Modelo 2</button>
   </div>
 
   <div class="card">
-    <model-viewer id="m3" src="test3.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m3')">VER EN AR</button>
-    <div class="loader">Modelo 3</div>
+    <button class="btn-ar" onclick="activarAR('test3.glb')">Modelo 3</button>
   </div>
 
   <div class="card">
-    <model-viewer id="m4" src="test4.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m4')">VER EN AR</button>
-    <div class="loader">Modelo 4</div>
+    <button class="btn-ar" onclick="activarAR('test4.glb')">Modelo 4</button>
   </div>
 
   <div class="card">
-    <model-viewer id="m5" src="test5.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m5')">VER EN AR</button>
-    <div class="loader">Modelo 5</div>
+    <button class="btn-ar" onclick="activarAR('test5.glb')">Modelo 5</button>
   </div>
 
   <div class="card">
-    <model-viewer id="m6" src="test6.glb" auto-rotate camera-controls></model-viewer>
-    <button class="btn-ar" onclick="activarAR('m6')">VER EN AR</button>
-    <div class="loader">Modelo 6</div>
+    <button class="btn-ar" onclick="activarAR('test6.glb')">Modelo 6</button>
   </div>
 
 </div>
 
+<!-- model-viewer oculto -->
+<model-viewer 
+  id="viewer"
+  ar
+  ar-modes="scene-viewer webxr"
+  style="display:none;">
+</model-viewer>
+
 <script>
-  function activarAR(id) {
-    const viewer = document.getElementById(id);
+  function activarAR(modelo) {
+    const viewer = document.getElementById("viewer");
+    viewer.src = modelo;
     viewer.activateAR();
   }
 </script>
