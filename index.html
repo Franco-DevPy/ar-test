@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>AR Viewer</title>
+  <title>AR Multi Test</title>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -12,88 +12,112 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
       color: white;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
     }
 
     h1 {
-      margin: 20px 0;
-      font-size: 24px;
       text-align: center;
+      padding: 15px;
+      font-size: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      padding: 15px;
+    }
+
+    .card {
+      background: #111;
+      border-radius: 15px;
+      padding: 10px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
     model-viewer {
-      width: 90vw;
-      height: 60vh;
-      background: #111;
-      border-radius: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      width: 100%;
+      height: 150px;
+      background: #000;
+      border-radius: 10px;
     }
 
     .btn-ar {
-      margin-top: 20px;
-      padding: 15px 25px;
-      font-size: 18px;
+      margin-top: 10px;
+      width: 100%;
+      padding: 15px;
+      font-size: 16px;
       border: none;
-      border-radius: 12px;
+      border-radius: 10px;
       background: linear-gradient(135deg, #ff4b2b, #ff416c);
       color: white;
       cursor: pointer;
-      transition: 0.3s;
+      font-weight: bold;
     }
 
-    .btn-ar:hover {
-      transform: scale(1.05);
-      opacity: 0.9;
+    .btn-ar:active {
+      transform: scale(0.97);
     }
 
     .loader {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 18px;
-      color: #ccc;
+      font-size: 12px;
+      color: #aaa;
+      margin-top: 5px;
     }
   </style>
 </head>
 
 <body>
 
-<h1>Visualiza el modelo en 3D 🚀</h1>
+<h1>Test AR - Modelos 🚀</h1>
 
-<div class="loader" id="loader">Cargando modelo...</div>
+<div class="grid">
 
-<model-viewer 
-  id="viewer"
-  src="test3.glb"
-  ar
-  ar-modes="scene-viewer webxr"
-  ar-placement="wall"
-  auto-rotate
-  autoplay
-  animation-name="*"
-  camera-controls
-  exposure="1"
-  shadow-intensity="1"
-  style="display:none;">
-</model-viewer>
+  <!-- CARD TEMPLATE (x6) -->
 
-<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
+  <div class="card">
+    <model-viewer id="m1" src="test1.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m1')">VER EN AR</button>
+    <div class="loader">Modelo 1</div>
+  </div>
+
+  <div class="card">
+    <model-viewer id="m2" src="test2.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m2')">VER EN AR</button>
+    <div class="loader">Modelo 2</div>
+  </div>
+
+  <div class="card">
+    <model-viewer id="m3" src="test3.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m3')">VER EN AR</button>
+    <div class="loader">Modelo 3</div>
+  </div>
+
+  <div class="card">
+    <model-viewer id="m4" src="test4.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m4')">VER EN AR</button>
+    <div class="loader">Modelo 4</div>
+  </div>
+
+  <div class="card">
+    <model-viewer id="m5" src="test5.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m5')">VER EN AR</button>
+    <div class="loader">Modelo 5</div>
+  </div>
+
+  <div class="card">
+    <model-viewer id="m6" src="test6.glb" auto-rotate camera-controls></model-viewer>
+    <button class="btn-ar" onclick="activarAR('m6')">VER EN AR</button>
+    <div class="loader">Modelo 6</div>
+  </div>
+
+</div>
 
 <script>
-  const viewer = document.getElementById("viewer");
-  const loader = document.getElementById("loader");
-
-  // Cuando carga el modelo
-  viewer.addEventListener("load", () => {
-    loader.style.display = "none";
-    viewer.style.display = "block";
-  });
-
-  function activarAR() {
+  function activarAR(id) {
+    const viewer = document.getElementById(id);
     viewer.activateAR();
   }
 </script>
