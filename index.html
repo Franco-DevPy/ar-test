@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>AR Multi Test</title>
+  <title>AR Test Pro</title>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -10,7 +10,7 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-color: tomato;
+      background: linear-gradient(135deg, #ff5f3a, #ff2e63);
       color: white;
     }
 
@@ -28,10 +28,10 @@
     }
 
     .card {
-      background: #111;
-      border-radius: 15px;
-      padding: 15px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+      background: #0d0d0d;
+      border-radius: 20px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -43,15 +43,27 @@
       padding: 18px;
       font-size: 18px;
       border: none;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #ff4b2b, #ff416c);
+      border-radius: 14px;
+      background: linear-gradient(135deg, #ff3d3d, #ff6a6a);
       color: white;
-      cursor: pointer;
       font-weight: bold;
+      cursor: pointer;
     }
 
     .btn-ar:active {
-      transform: scale(0.95);
+      transform: scale(0.96);
+    }
+
+    .loading {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,0.8);
+      padding: 12px 20px;
+      border-radius: 20px;
+      font-size: 14px;
+      display: none;
     }
   </style>
 </head>
@@ -61,34 +73,17 @@
 <h1>🚀 Test AR - Modelos</h1>
 
 <div class="grid">
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test1.glb')">Modelo 1</button>
-  </div>
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test2.glb')">Modelo 2</button>
-  </div>
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test3.glb')">Modelo 3</button>
-  </div>
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test4.glb')">Modelo 4</button>
-  </div>
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test5.glb')">Modelo 5</button>
-  </div>
-
-  <div class="card">
-    <button class="btn-ar" onclick="activarAR('test6.glb')">Modelo 6</button>
-  </div>
-
+  <div class="card"><button class="btn-ar" onclick="activarAR('test1.glb')">Modelo 1</button></div>
+  <div class="card"><button class="btn-ar" onclick="activarAR('test2.glb')">Modelo 2</button></div>
+  <div class="card"><button class="btn-ar" onclick="activarAR('test3.glb')">Modelo 3</button></div>
+  <div class="card"><button class="btn-ar" onclick="activarAR('test4.glb')">Modelo 4</button></div>
+  <div class="card"><button class="btn-ar" onclick="activarAR('test5.glb')">Modelo 5</button></div>
+  <div class="card"><button class="btn-ar" onclick="activarAR('test6.glb')">Modelo 6</button></div>
 </div>
 
-<!-- Viewer oculto reutilizable -->
+<div class="loading" id="loading">Cargando modelo...</div>
+
+<!-- Viewer oculto -->
 <model-viewer 
   id="viewer"
   ar
@@ -100,17 +95,36 @@
 </model-viewer>
 
 <script>
-  function activarAR(modelo) {
-    const viewer = document.getElementById("viewer");
+  const viewer = document.getElementById("viewer");
+  const loading = document.getElementById("loading");
 
-    // Forzar recarga del modelo
+  function activarAR(modelo) {
+    loading.style.display = "block";
+
+    // limpiar modelo anterior
     viewer.src = "";
+
+    // timeout de seguridad (evita bloqueo)
+    let timeout = setTimeout(() => {
+      loading.innerText = "Error al cargar 😢";
+    }, 8000);
+
+    // cargar modelo
     viewer.src = modelo;
 
-    // Pequeño delay para asegurar carga antes de abrir AR
-    setTimeout(() => {
+    // cuando carga correctamente
+    viewer.addEventListener("load", () => {
+      clearTimeout(timeout);
+      loading.style.display = "none";
+
+      // abrir AR
       viewer.activateAR();
-    }, 100);
+    }, { once: true });
+
+    // error de carga
+    viewer.addEventListener("error", () => {
+      loading.innerText = "Modelo no compatible ❌";
+    }, { once: true });
   }
 </script>
 
