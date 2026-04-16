@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>AR Test Pro</title>
+  <title>AR Test</title>
 
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
@@ -12,36 +12,20 @@
       font-family: Arial, sans-serif;
       background: linear-gradient(135deg, #ff5f3a, #ff2e63);
       color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
     }
 
     h1 {
-      text-align: center;
-      padding: 20px;
-      font-size: 24px;
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      padding: 15px;
-    }
-
-    .card {
-      background: #0d0d0d;
-      border-radius: 20px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      height: 120px;
+      margin-bottom: 20px;
     }
 
     .btn-ar {
-      width: 100%;
-      padding: 18px;
-      font-size: 18px;
+      padding: 18px 30px;
+      font-size: 20px;
       border: none;
       border-radius: 14px;
       background: linear-gradient(135deg, #ff3d3d, #ff6a6a);
@@ -51,18 +35,12 @@
     }
 
     .btn-ar:active {
-      transform: scale(0.96);
+      transform: scale(0.95);
     }
 
     .loading {
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0,0,0,0.8);
-      padding: 12px 20px;
-      border-radius: 20px;
-      font-size: 14px;
+      margin-top: 20px;
+      font-size: 16px;
       display: none;
     }
   </style>
@@ -70,27 +48,20 @@
 
 <body>
 
-<h1>🚀 Test AR - Modelos</h1>
+<h1>🚀 Ver modelo en AR</h1>
 
-<div class="grid">
-  <div class="card"><button class="btn-ar" onclick="activarAR('test1.glb')">Modelo 1</button></div>
-  <div class="card"><button class="btn-ar" onclick="activarAR('test2.glb')">Modelo 2</button></div>
-  <div class="card"><button class="btn-ar" onclick="activarAR('test3.glb')">Modelo 3</button></div>
-  <div class="card"><button class="btn-ar" onclick="activarAR('test4.glb')">Modelo 4</button></div>
-  <div class="card"><button class="btn-ar" onclick="activarAR('test5.glb')">Modelo 5</button></div>
-  <div class="card"><button class="btn-ar" onclick="activarAR('test6.glb')">Modelo 6</button></div>
-</div>
+<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
 
 <div class="loading" id="loading">Cargando modelo...</div>
 
-<!-- Viewer oculto -->
+<!-- viewer oculto -->
 <model-viewer 
   id="viewer"
+  src="test2.glb"
   ar
   ar-modes="scene-viewer webxr"
   autoplay
   animation-name="*"
-  camera-controls
   style="display:none;">
 </model-viewer>
 
@@ -98,33 +69,19 @@
   const viewer = document.getElementById("viewer");
   const loading = document.getElementById("loading");
 
-  function activarAR(modelo) {
+  function activarAR() {
     loading.style.display = "block";
 
-    // limpiar modelo anterior
-    viewer.src = "";
-
-    // timeout de seguridad (evita bloqueo)
-    let timeout = setTimeout(() => {
-      loading.innerText = "Error al cargar 😢";
-    }, 8000);
-
-    // cargar modelo
-    viewer.src = modelo;
-
-    // cuando carga correctamente
-    viewer.addEventListener("load", () => {
-      clearTimeout(timeout);
+    // Esperar a que el modelo esté listo
+    if (viewer.loaded) {
       loading.style.display = "none";
-
-      // abrir AR
       viewer.activateAR();
-    }, { once: true });
-
-    // error de carga
-    viewer.addEventListener("error", () => {
-      loading.innerText = "Modelo no compatible ❌";
-    }, { once: true });
+    } else {
+      viewer.addEventListener("load", () => {
+        loading.style.display = "none";
+        viewer.activateAR();
+      }, { once: true });
+    }
   }
 </script>
 
