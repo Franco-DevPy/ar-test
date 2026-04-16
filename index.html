@@ -9,7 +9,7 @@
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: Arial;
       background: linear-gradient(135deg, #ff5f3a, #ff2e63);
       color: white;
       display: flex;
@@ -19,29 +19,14 @@
       height: 100vh;
     }
 
-    h1 {
-      margin-bottom: 20px;
-    }
-
     .btn-ar {
-      padding: 18px 30px;
+      padding: 20px 30px;
       font-size: 20px;
       border: none;
       border-radius: 14px;
       background: linear-gradient(135deg, #ff3d3d, #ff6a6a);
       color: white;
       font-weight: bold;
-      cursor: pointer;
-    }
-
-    .btn-ar:active {
-      transform: scale(0.95);
-    }
-
-    .loading {
-      margin-top: 20px;
-      font-size: 16px;
-      display: none;
     }
   </style>
 </head>
@@ -52,9 +37,6 @@
 
 <button class="btn-ar" onclick="activarAR()">VER EN AR</button>
 
-<div class="loading" id="loading">Cargando modelo...</div>
-
-<!-- viewer oculto -->
 <model-viewer 
   id="viewer"
   src="test2.glb"
@@ -66,22 +48,9 @@
 </model-viewer>
 
 <script>
-  const viewer = document.getElementById("viewer");
-  const loading = document.getElementById("loading");
-
   function activarAR() {
-    loading.style.display = "block";
-
-    // Esperar a que el modelo esté listo
-    if (viewer.loaded) {
-      loading.style.display = "none";
-      viewer.activateAR();
-    } else {
-      viewer.addEventListener("load", () => {
-        loading.style.display = "none";
-        viewer.activateAR();
-      }, { once: true });
-    }
+    const viewer = document.getElementById("viewer");
+    viewer.activateAR();
   }
 </script>
 
