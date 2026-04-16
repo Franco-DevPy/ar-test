@@ -33,7 +33,6 @@
       padding: 15px;
       box-shadow: 0 8px 20px rgba(0,0,0,0.5);
       display: flex;
-      flex-direction: column;
       align-items: center;
       justify-content: center;
       height: 120px;
@@ -80,7 +79,7 @@
   </div>
 
   <div class="card">
-    <button class="btn-ar" onclick="activarAR('test8.glb')">Modelo 5</button>
+    <button class="btn-ar" onclick="activarAR('test5.glb')">Modelo 5</button>
   </div>
 
   <div class="card">
@@ -89,18 +88,29 @@
 
 </div>
 
-<!-- model-viewer oculto -->
+<!-- Viewer oculto reutilizable -->
 <model-viewer 
   id="viewer"
   ar
-  ar-modes="scene-viewer webxr">
+  ar-modes="scene-viewer webxr"
+  autoplay
+  animation-name="*"
+  camera-controls
+  style="display:none;">
 </model-viewer>
 
 <script>
   function activarAR(modelo) {
     const viewer = document.getElementById("viewer");
+
+    // Forzar recarga del modelo
+    viewer.src = "";
     viewer.src = modelo;
-    viewer.activateAR();
+
+    // Pequeño delay para asegurar carga antes de abrir AR
+    setTimeout(() => {
+      viewer.activateAR();
+    }, 100);
   }
 </script>
 
