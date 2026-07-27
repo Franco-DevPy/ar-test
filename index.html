@@ -37,13 +37,16 @@
 
 <button class="btn-ar" onclick="activarAR()">VER EN AR</button>
 
-<model-viewer 
+<model-viewer
   id="viewer"
-  src="test3.glb"
+  src="drone_show.glb"
   ar
   ar-modes="scene-viewer webxr"
+  ar-scale="auto"
+  ar-placement="floor"
   autoplay
   animation-name="*"
+  shadow-intensity="0"
   style="display:none;">
 </model-viewer>
 
