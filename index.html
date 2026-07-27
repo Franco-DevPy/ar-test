@@ -31,21 +31,40 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
+      min-height: 100vh;
+      padding-bottom: 40px;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+    }
+
+    .show {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+
+    .show h2 {
+      margin: 8px 0;
+      font-size: 18px;
+      font-weight: normal;
+      color: #aaa;
     }
 
     model-viewer {
       width: 100vw;
-      height: 65vh;
+      height: 55vh;
       background-color: #05050a;
       --poster-color: transparent;
     }
 
     .btn-ar {
-      margin-top: 16px;
-      padding: 20px 30px;
-      font-size: 20px;
+      margin-top: 12px;
+      padding: 18px 28px;
+      font-size: 18px;
       border: none;
       border-radius: 14px;
       background: linear-gradient(135deg, #ff3d3d, #ff6a6a);
@@ -59,28 +78,53 @@
 
 <h1>🚀 Ver modelo en AR</h1>
 
-<model-viewer
-  id="viewer"
-  src="test2.glb"
-  ar
-  ar-modes="scene-viewer webxr"
-  ar-scale="auto"
-  ar-placement="floor"
-  camera-controls
-  autoplay
-  animation-name="*"
-  shadow-intensity="0"
-  exposure="1">
-  <effect-composer render-mode="quality">
-    <bloom-effect strength="2.5" threshold="0.1" radius="0.6" smoothing="0.1"></bloom-effect>
-  </effect-composer>
-</model-viewer>
+<div class="show">
+  <h2>Modelo 1 - Dotlings</h2>
+  <model-viewer
+    id="viewer1"
+    src="dotlings.glb"
+    loading="eager"
+    ar
+    ar-modes="scene-viewer webxr"
+    ar-scale="auto"
+    ar-placement="floor"
+    camera-controls
+    autoplay
+    animation-name="*"
+    shadow-intensity="0"
+    exposure="1">
+    <effect-composer render-mode="quality">
+      <bloom-effect strength="2.5" threshold="0.1" radius="0.6" smoothing="0.1"></bloom-effect>
+    </effect-composer>
+  </model-viewer>
+  <button class="btn-ar" onclick="activarAR('viewer1')">VER MODELO 1 EN AR</button>
+</div>
 
-<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
+<div class="show">
+  <h2>Modelo 2 - Snowflake Ball</h2>
+  <model-viewer
+    id="viewer2"
+    src="snowflake_ball.glb"
+    loading="eager"
+    ar
+    ar-modes="scene-viewer webxr"
+    ar-scale="auto"
+    ar-placement="floor"
+    camera-controls
+    autoplay
+    animation-name="*"
+    shadow-intensity="0"
+    exposure="1">
+    <effect-composer render-mode="quality">
+      <bloom-effect strength="2.5" threshold="0.1" radius="0.6" smoothing="0.1"></bloom-effect>
+    </effect-composer>
+  </model-viewer>
+  <button class="btn-ar" onclick="activarAR('viewer2')">VER MODELO 2 EN AR</button>
+</div>
 
 <script>
-  function activarAR() {
-    const viewer = document.getElementById("viewer");
+  function activarAR(id) {
+    const viewer = document.getElementById(id);
     viewer.activateAR();
   }
 </script>
