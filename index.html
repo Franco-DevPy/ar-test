@@ -4,13 +4,29 @@
   <meta charset="UTF-8">
   <title>AR Test</title>
 
-  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+  <script async src="https://unpkg.com/es-module-shims@1.7.1/dist/es-module-shims.js"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.174.0/build/three.module.min.js"
+      }
+    }
+  </script>
+
+  <!-- model-viewer-module (without three bundled) is required so it shares the same
+       three.js instance as model-viewer-effects; the regular model-viewer.min.js
+       bundles its own three.js and breaks the effects addon.
+       Versions are pinned: model-viewer-effects 1.5.0 only works with model-viewer
+       ^4.1.0 and three ^0.174.0 - the current model-viewer "latest" (4.3.1) needs a
+       newer three that removed an export the effects addon still depends on. -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer@4.1.0/dist/model-viewer-module.min.js"></script>
+  <script type="module" src="https://unpkg.com/@google/model-viewer-effects@1.5.0/dist/model-viewer-effects.min.js"></script>
 
   <style>
     body {
       margin: 0;
       font-family: Arial;
-      background-color: white;
+      background-color: #05050a;
       color: white;
       display: flex;
       flex-direction: column;
@@ -19,7 +35,15 @@
       height: 100vh;
     }
 
+    model-viewer {
+      width: 100vw;
+      height: 65vh;
+      background-color: #05050a;
+      --poster-color: transparent;
+    }
+
     .btn-ar {
+      margin-top: 16px;
       padding: 20px 30px;
       font-size: 20px;
       border: none;
@@ -35,8 +59,6 @@
 
 <h1>🚀 Ver modelo en AR</h1>
 
-<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
-
 <model-viewer
   id="viewer"
   src="test1.glb"
@@ -44,11 +66,17 @@
   ar-modes="scene-viewer webxr"
   ar-scale="auto"
   ar-placement="floor"
+  camera-controls
   autoplay
   animation-name="*"
   shadow-intensity="0"
-  style="display:none;">
+  exposure="1">
+  <effect-composer render-mode="quality">
+    <bloom-effect strength="2.5" threshold="0.1" radius="0.6" smoothing="0.1"></bloom-effect>
+  </effect-composer>
 </model-viewer>
+
+<button class="btn-ar" onclick="activarAR()">VER EN AR</button>
 
 <script>
   function activarAR() {
